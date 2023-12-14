@@ -1,0 +1,42 @@
+name: Dockerfile Check
+
+on: [push]
+
+jobs:
+  check_dockerfile:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker
+        uses: docker/setup-docker@v2
+        with:
+          dockerfile: Dockerfile
+          context: .
+
+      - name: Build Docker Image
+        run: |
+          docker build -t my-docker-image .
+
+      - name: Test Docker Run
+        run: |
+          docker run --rm my-docker-image /bin/bash -c "echo 'Docker passed'"
+
+      - name: Set Badge Status
+        id: set-badge
+        run: |
+          status="Docker passed"
+          if [ $? -ne 0 ]; then
+            status="Docker failed"
+          fi
+          echo "##[set-output name=status;]$status"
+
+      - name: Docker Badge
+        uses: RubbaBoy/BYOB@v1.3.0
+        with:
+          NAME: docker-badge
+          LABEL: 'Docker Status'
+          STATUS: ${{ steps.set-badge.outputs.status }}
+          COLOR: ${{ if success() }}00FF00${{ else }}FF0000${{ endif }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
