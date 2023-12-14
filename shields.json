@@ -1,1 +1,1 @@
-{"docker-badge":{"label":"Docker Status","status":"Docker passed","color":"00FF00"}}
+{"docker-badge":{"label":"Docker Status","icon":"docker","status":"Docker build passed","color":"FF0000"}}
