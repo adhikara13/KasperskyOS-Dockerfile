@@ -20,9 +20,9 @@ jobs:
       - name: Set Badge Status
         id: set-badge
         run: |
-          status="Docker passed"
+          status="Docker build passed"
           if [ $? -ne 0 ]; then
-            status="Docker failed"
+            status="Docker build failed"
           fi
           echo "Status=$status" >> $GITHUB_ENV
           echo "Color=$([[ $status == 'Docker passed' ]] && echo '00FF00' || echo 'FF0000')" >> $GITHUB_ENV
@@ -32,6 +32,7 @@ jobs:
         with:
           NAME: docker-badge
           LABEL: 'Docker Status'
+          ICON: 'docker'
           STATUS: ${{ env.Status }}
           COLOR: ${{ env.Color }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

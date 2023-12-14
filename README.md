@@ -1,5 +1,6 @@
 # KasperskyOS Dockerfile
 
+![Docker](https://byob.yarr.is/adhikara13/KasperskyOS-Dockerfile/docker-badge)
 ## Introduction
 
 This Dockerfile simplifies the process of running KasperskyOS Community Edition by automating the installation and setup steps. KasperskyOS is a secure, flexible operating system designed for embedded systems, critical infrastructure, and IoT devices.
