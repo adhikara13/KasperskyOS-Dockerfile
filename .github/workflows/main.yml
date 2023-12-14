@@ -1,13 +1,18 @@
 name: Dockerfile Check
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * 0'  # Run every Sunday at midnight
 
 jobs:
   check_dockerfile:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Build Docker Image
         run: |
@@ -25,10 +30,10 @@ jobs:
             status="Docker build failed"
           fi
           echo "Status=$status" >> $GITHUB_ENV
-          echo "Color=$([[ $status == 'Docker passed' ]] && echo '00FF00' || echo 'FF0000')" >> $GITHUB_ENV
+          echo "Color=$([[ $status == 'Docker build passed' ]] && echo '00FF00' || echo 'FF0000')" >> $GITHUB_ENV
 
       - name: Docker Badge
-        uses: RubbaBoy/BYOB@v1
+        uses: RubbaBoy/BYOB@v1.3.0
         with:
           NAME: docker-badge
           LABEL: 'Docker Status'
