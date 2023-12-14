@@ -30,13 +30,14 @@ jobs:
           if [ $? -ne 0 ]; then
             status="Docker failed"
           fi
-          echo "##[set-output name=status;]$status"
+          echo "Status=$status" >> $GITHUB_ENV
+          echo "Color=$([[ $status == 'Docker passed' ]] && echo '00FF00' || echo 'FF0000')" >> $GITHUB_ENV
 
       - name: Docker Badge
-        uses: RubbaBoy/BYOB@v1.3.0
+        uses: RubbaBoy/BYOB@v1
         with:
           NAME: docker-badge
           LABEL: 'Docker Status'
-          STATUS: ${{ steps.set-badge.outputs.status }}
-          COLOR: ${{ if success() }}00FF00${{ else }}FF0000${{ endif }}
+          STATUS: ${{ env.Status }}
+          COLOR: ${{ env.Color }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
