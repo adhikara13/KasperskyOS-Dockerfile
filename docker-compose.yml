@@ -1,0 +1,11 @@
+version: '3'
+services:
+  kasperskyos:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: kasperskyos-image:latest
+    container_name: kasperskyos-container
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
