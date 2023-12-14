@@ -17,10 +17,11 @@ RUN download_link=$(curl -s "https://api-router.kaspersky-labs.com/downloads/sea
     wget -O /tmp/KasperskyOS.deb "$download_link" && \
     echo "$sha256sum /tmp/KasperskyOS.deb" | sha256sum -c - || (echo "SHA256 checksum failed" && exit 1) && \
     dpkg -i /tmp/KasperskyOS.deb || apt-get install -f -y && \
+    version=$(dpkg-deb --info /tmp/KasperskyOS.deb | grep Version | cut -f 1 -d ' ') && \
     rm /tmp/KasperskyOS.deb
 
 # Set up environment variables
-ENV PATH="/opt/KasperskyOS-Community-Edition-1.1.1.40:${PATH}"
+ENV PATH="/opt/KasperskyOS-Community-Edition-${version}:${PATH}"
 
 # Copy KasperskyOS examples to the home directory
 RUN mkdir -p /root/kosce
