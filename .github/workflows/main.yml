@@ -9,12 +9,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up Docker
-        uses: docker/setup-docker@v2
-        with:
-          dockerfile: Dockerfile
-          context: .
-
       - name: Build Docker Image
         run: |
           docker build -t my-docker-image .
